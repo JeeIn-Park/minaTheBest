@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-import { encryptData } from './encryptData';
+import { encryptData } from "./encryptData";
 import { generateStorageProof } from './storageProof';
 import { storeEncryptedFile } from './storeEncryptedFile';
 import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
@@ -13,9 +13,7 @@ async function testStorage() {
   const zkApp = new ZkTorusDataVault(zkAppAddress);
 
   console.log("Deploying zkApp...");
-  await zkApp.deploy({
-    verificationKey: undefined, // No verification key needed
-  });
+  await zkApp.deploy();
 
   // 1️⃣ Encrypt data
   const key = crypto.randomBytes(32);
@@ -33,7 +31,7 @@ async function testStorage() {
 
   // 4️⃣ Store proof hash in Mina
   const dataHash = Poseidon.hash(
-    encrypted.split('').map((char: string) => Field(char.charCodeAt(0))) // Fixed implicit 'any' type
+    Array.from(Buffer.from(encrypted)).map(byte => Field(byte))
   );
   console.log("Uploading data hash to Mina...");
   await zkApp.uploadData(dataHash);

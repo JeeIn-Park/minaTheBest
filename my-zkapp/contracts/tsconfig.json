@@ -1,16 +1,16 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "es2022",
-    "lib": ["dom", "esnext"],
-    "outDir": "./build",
-    "rootDir": ".",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["DOM", "ESNext"],
+    "outDir": "../../dist/contracts", 
+    "rootDir": "./src",
     "strict": true,
-    "strictPropertyInitialization": false, // to enable generic constructors, e.g. on CircuitValue
+    "strictPropertyInitialization": false, 
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowJs": true,
@@ -19,6 +19,10 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": false,
+    "baseUrl": ".",
+    "paths": {
+      "@contracts/*": ["src/*"]
+    }
   },
-  "include": ["./src"],
+  "include": ["./src"]
 }

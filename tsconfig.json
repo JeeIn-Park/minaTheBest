@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",  // Prevents overwriting input files
-    "rootDir": "./src",  // Ensures only source files are compiled
-    "declaration": true, // Generates `.d.ts` files for type declarations
+    "outDir": "./dist",
+    "rootDir": ".", 
+    "declaration": true,
     "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "Node",
@@ -24,11 +24,19 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "noImplicitAny": false,
-    "baseUrl": "./",
+
+    "baseUrl": ".", 
     "paths": {
-      "*": ["node_modules/*", "src/*"]
+      "*": [
+        "node_modules/*",
+        "src/*",
+        "my-zkapp/contracts/src/*"
+      ]
     }
   },
-  "include": ["src/**/*"],  // Ensures only `src/` is compiled
+  "include": [
+    "src",
+    "my-zkapp/contracts/src"
+  ],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "jest.config.js"]
 }
