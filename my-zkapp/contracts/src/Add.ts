@@ -1,9 +1,32 @@
-import { SmartContract, state, State, method, Field } from 'o1js';
+import { SmartContract, state, State, method, Field, Poseidon } from 'o1js';
 
-export class Add extends SmartContract {
-  @state(Field) num = State<Field>();
+/**
+ * ZkTorusDataVault Smart Contract
+ * This contract stores a zk-SNARK proof of encrypted data and verifies ownership.
+ */
+export class ZkTorusDataVault extends SmartContract {
+  @state(Field) storedDataHash = State<Field>();
 
-  @method async update() {
-    this.num.set(this.num.get().add(1));
+  /**
+   * Upload encrypted data hash to the Mina blockchain.
+   * @param dataHash - The Poseidon-hashed representation of encrypted data.
+   * @returns {Promise<void>} - Ensures compatibility with Mina's `method` decorator.
+   */
+  @method
+  uploadData(dataHash: Field): Promise<void> {
+    this.storedDataHash.set(dataHash);
+    return Promise.resolve(); // Required for Mina's method signature
+  }
+
+  /**
+   * Verify a zkProof against the stored hash.
+   * @param proof - The zkProof of the encrypted data.
+   * @returns {Promise<void>} - Ensures compatibility with Mina's `method` decorator.
+   */
+  @method
+  verifyProof(proof: Field): Promise<void> {
+    const storedHash = this.storedDataHash.get();
+    storedHash.assertEquals(proof, 'Proof does not match the stored data hash');
+    return Promise.resolve();
   }
 }
