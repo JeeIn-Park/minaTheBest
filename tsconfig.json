@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",  // Prevents overwriting input files
+    "rootDir": "./src",  // Ensures only source files are compiled
+    "declaration": true, // Generates `.d.ts` files for type declarations
     "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "Node",
@@ -7,14 +10,25 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    
+
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
-    "jsx": "react-jsx", 
+    "jsx": "react-jsx",
 
     /* ✅ Fix BigInt & Private Fields */
     "lib": ["ES2022", "DOM"],
-    "useDefineForClassFields": false
-  }
+    "useDefineForClassFields": false,
+
+    /* ✅ Resolve Missing Declarations */
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "baseUrl": "./",
+    "paths": {
+      "*": ["node_modules/*", "src/*"]
+    }
+  },
+  "include": ["src/**/*"],  // Ensures only `src/` is compiled
+  "exclude": ["node_modules", "dist", "**/*.test.ts", "jest.config.js"]
 }
