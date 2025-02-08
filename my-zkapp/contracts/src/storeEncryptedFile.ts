@@ -1,22 +1,19 @@
-import { Web3Storage, File } from 'web3.storage';
+import OpenLogin from "@toruslabs/openlogin";
 
-// 🔹 Replace with your Web3.Storage API Token
-const WEB3_STORAGE_TOKEN = "your-api-key-here"; 
+const openLogin = new OpenLogin({
+  clientId: "BIBkmxEkPvb3RriKPd5DPqOLLc-RGZzpAK5go1N1KrFsvD2wqgyV7cENytbUj14Xd3Qlin0sJUERRRlEzU3m6Sg", // Replace with your actual Torus Client ID
+  network: "testnet", // Change to 'mainnet' for production
+});
 
-const client = new Web3Storage({ token: WEB3_STORAGE_TOKEN });
+export async function initializeTorus() {
+  await openLogin.init(); // Ensure initialization
+  await openLogin.login({
+    loginProvider: "google", // Use 'facebook', 'twitter', etc., if needed
+  });
+  console.log("Torus Login Successful. User private key:", openLogin.privKey);
+}
 
 export async function storeEncryptedFile(encryptedData: string) {
-  try {
-    // 🔹 Convert encrypted string into a File object
-    const encryptedFile = new File([encryptedData], "encryptedData.txt", { type: "text/plain" });
-
-    // 🔹 Upload to IPFS via Web3.Storage
-    const cid = await client.put([encryptedFile]);
-    console.log(`Stored in IPFS with CID: ${cid}`);
-
-    return cid; // Returns the content identifier (CID)
-  } catch (error) {
-    console.error("IPFS Storage Error:", error);
-    throw error;
-  }
+  console.log("Simulating storing data in Torus: ", encryptedData);
+  return `simulated-proof-${Date.now()}`;
 }
