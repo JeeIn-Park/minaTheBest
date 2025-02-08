@@ -1,4 +1,4 @@
-import { SmartContract, state, State, method, Field, Poseidon } from 'o1js';
+import { SmartContract, state, State, method, Field } from 'o1js';
 
 /**
  * ZkTorusDataVault Smart Contract
@@ -26,6 +26,10 @@ export class ZkTorusDataVault extends SmartContract {
   @method
   verifyProof(proof: Field): Promise<void> {
     const storedHash = this.storedDataHash.get();
+
+    // 🔥 Fix: Ensure storedHash is linked to the on-chain state
+    this.storedDataHash.requireEquals(storedHash);
+
     storedHash.assertEquals(proof, 'Proof does not match the stored data hash');
     return Promise.resolve();
   }

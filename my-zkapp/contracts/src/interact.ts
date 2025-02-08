@@ -4,18 +4,25 @@ import { ZkTorusDataVault } from './Add.js';
 async function main() {
   console.log("Starting Mina zkApp interaction...");
 
-  // Setup Mina Local Blockchain
-  Mina.LocalBlockchain();
+  // 🔥 Fix: Await Mina Local Blockchain Initialization
+  const Local = await Mina.LocalBlockchain();
+  Mina.setActiveInstance(Local);
+
+  // Generate keys
   const userKey = PrivateKey.random();
   const zkAppPrivateKey = PrivateKey.random();
   const zkAppAddress = zkAppPrivateKey.toPublicKey();
 
   const zkApp = new ZkTorusDataVault(zkAppAddress);
 
+  // 🔥 Fix: **Compile the contract before deploying**
+  console.log("Compiling zkApp...");
+  await ZkTorusDataVault.compile();  // ✅ This caches the verification key
+
   // Deploy the contract
   console.log("Deploying zkApp...");
   await zkApp.deploy({
-    verificationKey: undefined, // Update this as per your setup
+    verificationKey: undefined, // Now the key is cached and used internally
   });
 
   // Encrypt and hash data

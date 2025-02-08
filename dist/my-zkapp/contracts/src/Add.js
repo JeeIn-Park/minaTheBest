@@ -36,6 +36,8 @@ class ZkTorusDataVault extends o1js_1.SmartContract {
      */
     verifyProof(proof) {
         const storedHash = this.storedDataHash.get();
+        // 🔥 Fix: Ensure storedHash is linked to the on-chain state
+        this.storedDataHash.requireEquals(storedHash);
         storedHash.assertEquals(proof, 'Proof does not match the stored data hash');
         return Promise.resolve();
     }
