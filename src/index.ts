@@ -1,0 +1,1 @@
+console.log("Mina zkApp is running...");
