@@ -40,5 +40,9 @@
   },
   "engines": {
     "node": ">=18.14.0"
+  },
+  "dependencies": {
+    "@toruslabs/torus.js": "^15.1.1",
+    "web3.storage": "^4.5.5"
   }
 }

@@ -7,28 +7,14 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
-    /* ✅ Fix for Mina zkApp Decorators */
+    
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 
-    /* ✅ Fix for React & JSX Errors */
-    "jsx": "react-jsx",
+    "jsx": "react-jsx", 
 
-    /* ✅ Fix for Build Errors */
-    "outDir": "./dist",  // Ensures compiled files go to a separate directory
-    "rootDir": "./src",  // Ensure TypeScript only compiles from the correct folder
-    "noEmitOnError": true // Prevents generating files if there are errors
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "contracts/build",
-    "ui/.next",
-    "ui/out",
-    "ui/build"
-  ]
+    /* ✅ Fix BigInt & Private Fields */
+    "lib": ["ES2022", "DOM"],
+    "useDefineForClassFields": false
+  }
 }
