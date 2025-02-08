@@ -1,67 +1,45 @@
-import { AccountUpdate, Field, Mina, PrivateKey, PublicKey } from 'o1js';
-import { Add } from './Add';
+import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
+import { ZkTorusDataVault } from './Add';
 
-/*
- * This file specifies how to test the `Add` example smart contract. It is safe to delete this file and replace
- * with your own tests.
- *
- * See https://docs.minaprotocol.com/zkapps for more info.
- */
-
-const proofsEnabled = false;
-
-describe('Add', () => {
-  let deployerAccount: Mina.TestPublicKey,
-    deployerKey: PrivateKey,
-    senderAccount: Mina.TestPublicKey,
-    senderKey: PrivateKey,
-    zkAppAddress: PublicKey,
-    zkAppPrivateKey: PrivateKey,
-    zkApp: Add;
-
-  beforeAll(async () => {
-    if (proofsEnabled) await Add.compile();
-  });
+describe('ZkTorusDataVault', () => {
+  let zkApp: ZkTorusDataVault;
+  let zkAppPrivateKey: PrivateKey;
 
   beforeEach(async () => {
-    const Local = await Mina.LocalBlockchain({ proofsEnabled });
-    Mina.setActiveInstance(Local);
-    [deployerAccount, senderAccount] = Local.testAccounts;
-    deployerKey = deployerAccount.key;
-    senderKey = senderAccount.key;
-
+    // Set up Mina Local Blockchain
+    Mina.LocalBlockchain();
     zkAppPrivateKey = PrivateKey.random();
-    zkAppAddress = zkAppPrivateKey.toPublicKey();
-    zkApp = new Add(zkAppAddress);
+    const zkAppAddress = zkAppPrivateKey.toPublicKey();
+
+    zkApp = new ZkTorusDataVault(zkAppAddress);
+
+    // Deploy zkApp
+    await zkApp.deploy({
+      verificationKey: undefined,
+    });
   });
 
-  async function localDeploy() {
-    const txn = await Mina.transaction(deployerAccount, async () => {
-      AccountUpdate.fundNewAccount(deployerAccount);
-      await zkApp.deploy();
-    });
-    await txn.prove();
-    // this tx needs .sign(), because `deploy()` adds an account update that requires signature authorization
-    await txn.sign([deployerKey, zkAppPrivateKey]).send();
-  }
+  test('should upload data hash to the blockchain', async () => {
+    const data = "My super secret data";
+    const dataHash = Poseidon.hash(
+      data.split('').map((char) => Field(char.charCodeAt(0)))
+    );
 
-  it('generates and deploys the `Add` smart contract', async () => {
-    await localDeploy();
-    const num = zkApp.num.get();
-    expect(num).toEqual(Field(1));
+    await zkApp.uploadData(dataHash);
+
+    const storedHash = zkApp.storedDataHash.get();
+    expect(storedHash).toEqual(dataHash);
   });
 
-  it('correctly updates the num state on the `Add` smart contract', async () => {
-    await localDeploy();
+  test('should verify zkProof against stored hash', async () => {
+    const data = "My super secret data";
+    const dataHash = Poseidon.hash(
+      data.split('').map((char) => Field(char.charCodeAt(0)))
+    );
 
-    // update transaction
-    const txn = await Mina.transaction(senderAccount, async () => {
-      await zkApp.update();
-    });
-    await txn.prove();
-    await txn.sign([senderKey]).send();
+    await zkApp.uploadData(dataHash);
 
-    const updatedNum = zkApp.num.get();
-    expect(updatedNum).toEqual(Field(3));
+    await zkApp.verifyProof(dataHash);
+    console.log("Proof verified successfully!");
   });
 });
