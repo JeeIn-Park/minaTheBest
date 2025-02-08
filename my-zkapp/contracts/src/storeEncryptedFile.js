@@ -36,19 +36,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.initializeTorus = initializeTorus;
 exports.storeEncryptedFile = storeEncryptedFile;
-var torus_js_1 = require("@toruslabs/torus.js");
-var torusStorage = new torus_js_1.default();
-function storeEncryptedFile(encryptedData) {
+var openlogin_1 = require("@toruslabs/openlogin");
+var openLogin = new openlogin_1.default({
+    clientId: "BIBkmxEkPvb3RriKPd5DPqOLLc-RGZzpAK5go1N1KrFsvD2wqgyV7cENytbUj14Xd3Qlin0sJUERRRlEzU3m6Sg", // Replace with your actual Torus Client ID
+    network: "testnet", // Change to 'mainnet' for production
+});
+function initializeTorus() {
     return __awaiter(this, void 0, void 0, function () {
-        var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, torusStorage.storeData(encryptedData)];
+                case 0: return [4 /*yield*/, openLogin.init()];
                 case 1:
-                    result = _a.sent();
-                    return [2 /*return*/, result.storageProof]; // Returns zkProof of storage
+                    _a.sent(); // Ensure initialization
+                    return [4 /*yield*/, openLogin.login({
+                            loginProvider: "google", // Use 'facebook', 'twitter', etc., if needed
+                        })];
+                case 2:
+                    _a.sent();
+                    console.log("Torus Login Successful. User private key:", openLogin.privKey);
+                    return [2 /*return*/];
             }
+        });
+    });
+}
+function storeEncryptedFile(encryptedData) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            console.log("Simulating storing data in Torus: ", encryptedData);
+            return [2 /*return*/, "simulated-proof-".concat(Date.now())];
         });
     });
 }

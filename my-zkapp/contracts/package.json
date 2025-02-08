@@ -44,6 +44,7 @@
   "dependencies": {
     "@toruslabs/openlogin": "^8.2.1",
     "@toruslabs/torus.js": "^15.1.1",
+    "esm": "^3.2.25",
     "web3.storage": "^4.5.5"
   }
 }

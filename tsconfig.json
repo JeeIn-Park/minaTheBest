@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./", 
     "moduleResolution": "Node",
     "strict": true,
     "esModuleInterop": true,
@@ -16,5 +18,7 @@
     /* ✅ Fix BigInt & Private Fields */
     "lib": ["ES2022", "DOM"],
     "useDefineForClassFields": false
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

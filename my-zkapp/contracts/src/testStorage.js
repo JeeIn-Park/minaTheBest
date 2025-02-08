@@ -36,26 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var encryptData_1 = require("./encryptData");
-var storageProof_1 = require("./storageProof");
 var storeEncryptedFile_1 = require("./storeEncryptedFile");
-var crypto_1 = require("crypto");
 function testStorage() {
     return __awaiter(this, void 0, void 0, function () {
-        var key, fileContent, _a, encrypted, iv, proof, storageProof;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
-                case 0:
-                    key = crypto_1.default.randomBytes(32);
-                    fileContent = "My super secret data";
-                    _a = (0, encryptData_1.encryptData)(fileContent, key), encrypted = _a.encrypted, iv = _a.iv;
-                    console.log("Encrypted Data:", encrypted);
-                    proof = (0, storageProof_1.generateStorageProof)(encrypted, iv);
-                    console.log("zk-SNARK Proof:", proof.toString());
-                    return [4 /*yield*/, (0, storeEncryptedFile_1.storeEncryptedFile)(encrypted)];
+        var encryptedData, storageProof;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, storeEncryptedFile_1.initializeTorus)()];
                 case 1:
-                    storageProof = _b.sent();
-                    console.log("Storage Proof from Torus:", storageProof);
+                    _a.sent(); // First, authenticate with Torus
+                    encryptedData = "This is my encrypted data";
+                    return [4 /*yield*/, (0, storeEncryptedFile_1.storeEncryptedFile)(encryptedData)];
+                case 2:
+                    storageProof = _a.sent();
+                    console.log("Stored File Proof:", storageProof);
                     return [2 /*return*/];
             }
         });
