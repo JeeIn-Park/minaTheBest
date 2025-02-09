@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@toruslabs/torus-embed": "^5.0.0",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "o1js": "^2.2.0",
