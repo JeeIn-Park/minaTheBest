@@ -1,19 +1,20 @@
-import OpenLogin from "@toruslabs/openlogin";
+import { Field } from 'snarkyjs';
 
-const openLogin = new OpenLogin({
-  clientId: "BIBkmxEkPvb3RriKPd5DPqOLLc-RGZzpAK5go1N1KrFsvD2wqgyV7cENytbUj14Xd3Qlin0sJUERRRlEzU3m6Sg", // Replace with your actual Torus Client ID
-  network: "testnet", // Change to 'mainnet' for production
-});
+/**
+ * Simulates storing an encrypted file and returning its hash.
+ * @param encryptedData The encrypted data string.
+ * @param iv The initialization vector used for encryption.
+ * @returns A Field representing the hash of the stored file.
+ */
+export function storeEncryptedFile(encryptedData: string, iv: string): Field {
+  // Combine data and IV to create a unique identifier
+  const combinedData = encryptedData + iv;
 
-export async function initializeTorus() {
-  await openLogin.init(); // Ensure initialization
-  await openLogin.login({
-    loginProvider: "google", // Use 'facebook', 'twitter', etc., if needed
-  });
-  console.log("Torus Login Successful. User private key:", openLogin.privKey);
-}
+  // Hash the combined data
+  const hash = Field.fromJSON(combinedData); // Ensure you use an appropriate hashing mechanism
 
-export async function storeEncryptedFile(encryptedData: string) {
-  console.log("Simulating storing data in Torus: ", encryptedData);
-  return `simulated-proof-${Date.now()}`;
+  // Simulate storage process (e.g., storing hash on-chain)
+  console.log('Encrypted file stored with hash:', hash.toString());
+
+  return hash;
 }

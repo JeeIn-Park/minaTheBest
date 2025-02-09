@@ -1,7 +1,7 @@
 import * as crypto from 'crypto';
-import { encryptData } from "./encryptData";
-import { generateStorageProof } from './storageProof';
-import { storeEncryptedFile } from './storeEncryptedFile';
+import { encryptData } from "./encryptData.js";
+import { generateStorageProof } from './storageProof.js';
+import { storeEncryptedFile } from './storeEncryptedFile.js';
 import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
 import { ZkTorusDataVault } from './Add.js';
 

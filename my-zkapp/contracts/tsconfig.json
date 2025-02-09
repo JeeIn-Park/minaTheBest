@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": ".",   // Ensure TypeScript checks everything
+    "baseUrl": ".",
     "target": "ESNext",
-    "module": "NodeNext", // Use ESM
-    "moduleResolution": "NodeNext", // Use Node.js module resolution
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -12,15 +13,20 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "lib": ["ES2022", "DOM"],
-    "useDefineForClassFields": false,
-    "allowJs": true,
     "resolveJsonModule": true,
-    "noImplicitAny": false,
-    "baseUrl": "./",
+    "allowJs": true,
+    "useDefineForClassFields": false,
     "paths": {
-      "*": ["node_modules/*", "src/*"]
+      "storageProof": ["./my-zkapp/contracts/src/storageProof"],
+      "contracts/*": ["./my-zkapp/contracts/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "jest.config.js"]
+  "include": [
+    "src/**/*",
+    "my-zkapp/contracts/**/*"   // ✅ Force TypeScript to include the correct contracts path
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

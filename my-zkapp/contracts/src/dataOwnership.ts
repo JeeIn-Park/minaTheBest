@@ -1,73 +1,42 @@
-// zkTorus: Decentralised Private Data Vault
-// A Zero-Knowledge (zk) Proof-Based Secure Storage & Retrieval System on Mina Protocol
+import { DataOwnershipContract } from './DataOwnershipContract.js';
+import { Mina, PrivateKey, PublicKey, Field, Proof, AccountUpdate } from 'snarkyjs';
 
-import { SmartContract, Field, Poseidon, Bool, CircuitValue } from 'snarkyjs';
+async function deployAndInteract() {
+  // Setup local Mina blockchain
+  const Local = Mina.LocalBlockchain();
+  Mina.setActiveInstance(Local);
 
-// Define OwnershipProof Class for zk-SNARK logic
-class OwnershipProof extends CircuitValue {
-    dataHash: Field;
-    owner: Field;
+  // Test accounts
+  const deployerKey = Local.testAccounts[0].privateKey;
+  const zkAppPrivateKey = PrivateKey.random();
+  const zkAppPublicKey = zkAppPrivateKey.toPublicKey();
 
-    constructor(dataHash: Field, owner: Field) {
-        super();
-        this.dataHash = dataHash;
-        this.owner = owner;
-    }
+  // Deploy DataOwnershipContract
+  const zkAppInstance = new DataOwnershipContract(zkAppPublicKey);
+  const deployTx = await Mina.transaction(deployerKey, () => {
+    AccountUpdate.fundNewAccount(deployerKey);
+    zkAppInstance.deploy();
+  });
+  await deployTx.sign([deployerKey, zkAppPrivateKey]).send();
+  console.log('Contract deployed at:', zkAppPublicKey.toBase58());
 
-    // Generate hash using Poseidon
-    hash(): Field {
-        return Poseidon.hash([this.dataHash, this.owner]);
-    }
+  // Example data
+  const exampleHash = Field(123456789); // Replace with actual data hash
+  const proof = new Proof<Field, Field>(); // Replace with your actual proof generation logic
+
+  // Initialize the contract with data hash
+  const initTx = await Mina.transaction(deployerKey, () => {
+    zkAppInstance.init(exampleHash);
+  });
+  await initTx.sign([deployerKey]).send();
+  console.log('Contract initialized with hash:', exampleHash.toString());
+
+  // Verify proof
+  const verifyTx = await Mina.transaction(deployerKey, () => {
+    zkAppInstance.verifyProof(exampleHash, proof);
+  });
+  await verifyTx.sign([deployerKey]).send();
+  console.log('Proof verified successfully.');
 }
 
-// Define DataOwnershipContract Smart Contract
-export class DataOwnershipContract extends SmartContract {
-    dataHash = Field(0); // State variable for data hash
-    owner = Field(0);    // State variable for owner
-
-    // Initialize the contract with dataHash and owner
-    init(dataHash: Field, owner: Field) {
-        super.init();
-        this.dataHash = dataHash;
-        this.owner = owner;
-    }
-
-    // Generate a zk-SNARK proof for data ownership
-    generateProof(dataHash: Field, owner: Field): OwnershipProof {
-        const proof = new OwnershipProof(dataHash, owner);
-        console.log('Generated Proof Hash:', proof.hash().toString());
-        return proof;
-    }
-
-    // Verify a zk-SNARK proof for data ownership
-    verifyProof(proof: OwnershipProof): Bool {
-        const expectedHash = Poseidon.hash([this.dataHash, this.owner]);
-        const isValid = proof.hash().equals(expectedHash);
-        console.log('Proof Verified:', isValid.toBoolean());
-        return isValid;
-    }
-
-    // Verify storage node integrity (placeholder for storage node logic)
-    verifyStorageNodeAvailability(nodeHash: Field): Bool {
-        console.log('Verifying storage node:', nodeHash.toString());
-        // Placeholder for future zk-SNARK-based storage validation
-        return nodeHash.equals(this.dataHash);
-    }
-}
-
-// Example Usage
-(async () => {
-    const contract = new DataOwnershipContract();
-
-    // Initialize contract state
-    const userHash = Poseidon.hash([Field(1234)]); // Mock data hash
-    const owner = Field(5678); // Mock owner identifier
-    contract.init(userHash, owner);
-
-    // Generate proof
-    const proof = contract.generateProof(userHash, owner);
-
-    // Verify proof
-    const isValid = contract.verifyProof(proof);
-    console.log('Is Proof Valid?', isValid.toBoolean());
-})();
+deployAndInteract().catch((err) => console.error(err));

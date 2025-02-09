@@ -1,25 +1,22 @@
-import { SmartContract, Field, state, State, method, PublicKey, Proof, Poseidon } from 'snarkyjs';
+import { SmartContract, method, Field, State, state, PublicKey, Proof } from 'snarkyjs';
 
-// Function to convert a string into a Field element using Poseidon hash
-function stringToField(data: string): Field {
-  return Poseidon.hash(data.split("").map(char => Field(char.charCodeAt(0))));
-}
-
-// Generate zk-SNARK proof of storage
-export function generateStorageProof(encryptedData: string, iv: string): Field {
-  return Poseidon.hash([stringToField(encryptedData), stringToField(iv)]);
-}
-
-// Define zkApp Contract for Data Ownership Verification
 export class DataOwnershipContract extends SmartContract {
   @state(Field) storedHash = State<Field>();
 
-  @method storeDataHash(dataHash: Field) {
+  constructor(address: PublicKey) {
+    super(address);
+  }
+
+  // Initialize the contract state with the data hash
+  @method init(dataHash: Field) {
     this.storedHash.set(dataHash);
   }
 
-  @method verifyProof(dataHash: Field, proof: Proof) {
-    proof.verify();
-    this.storedHash.assertEquals(dataHash);
+  // Verify the proof and match it against the stored hash
+  @method verifyProof(dataHash: Field, proof: Proof<Field, Field>) {
+    proof.verify(); // Verify the proof
+    const currentHash = this.storedHash.get(); // Retrieve the stored hash
+    this.storedHash.assertEquals(currentHash); // Ensure state matches
+    currentHash.assertEquals(dataHash); // Validate the input hash
   }
 }
