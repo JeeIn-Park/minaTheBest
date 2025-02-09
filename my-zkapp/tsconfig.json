@@ -7,8 +7,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "allowJs": true,
-    "declaration": true
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["./contracts/src", "./ui/src"]
 }

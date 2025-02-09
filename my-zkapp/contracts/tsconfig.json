@@ -13,7 +13,6 @@
     "moduleResolution": "bundler",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "allowJs": true,
     "declaration": true,
     "sourceMap": true,
     "noFallthroughCasesInSwitch": true,
@@ -24,5 +23,5 @@
       "@contracts/*": ["src/*"]
     }
   },
-  "include": ["./src", "../../jest.config.js"]
+  "include": ["./src"]
 }

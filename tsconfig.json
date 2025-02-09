@@ -5,7 +5,7 @@
     "declaration": true,
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "bundler",  // ✅ Keeping "bundler" for Mina & Torus
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -24,6 +24,7 @@
     "allowJs": true,
     "resolveJsonModule": true,
     "noImplicitAny": false,
+    "strictNullChecks": true,  // ✅ Added for better null safety
 
     "baseUrl": ".", 
     "paths": {
@@ -37,6 +38,6 @@
   "include": [
     "src",
     "my-zkapp/contracts/src"
-, "jest.config.js"  ],
+  ],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "jest.config.js"]
 }

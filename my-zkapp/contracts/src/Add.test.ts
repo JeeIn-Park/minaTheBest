@@ -4,7 +4,7 @@ import { ZkTorusDataVault } from './Add';
 describe('ZkTorusDataVault', () => {
   let zkApp: ZkTorusDataVault;
   let zkAppPrivateKey: PrivateKey;
-  let feePayer: { publicKey: PublicKey; key: PrivateKey };
+  let feePayer: { publicKey: PublicKey; key: PrivateKey }; // ✅ Matches Mina's testAccounts[0] structure
 
   beforeAll(async () => {
     // ✅ Compile the contract once before all tests
@@ -16,20 +16,20 @@ describe('ZkTorusDataVault', () => {
     const localBlockchain = await Mina.LocalBlockchain();
     Mina.setActiveInstance(localBlockchain);
 
-    // ✅ Use test account as fee payer
-    feePayer = localBlockchain.testAccounts[0];
+    // ✅ Use test account as fee payer (matches expected structure)
+    feePayer = localBlockchain.testAccounts[0]; 
 
     zkAppPrivateKey = PrivateKey.random();
     const zkAppAddress = zkAppPrivateKey.toPublicKey();
     zkApp = new ZkTorusDataVault(zkAppAddress);
 
-    // ✅ Deploy zkApp within a transaction
+    // ✅ Deploy zkApp with the correct verification key
     const tx = await Mina.transaction(feePayer.publicKey, async () => {
-      await zkApp.deploy({ verificationKey: undefined });
+      await zkApp.deploy({ verificationKey: ZkTorusDataVault._verificationKey }); // ✅ Fixed verificationKey reference
     });
 
     await tx.prove();
-    await tx.sign([feePayer.key]); // ✅ Properly signing with fee payer's private key
+    await tx.sign([feePayer.key]); // ✅ Fixed signing
     await tx.send();
   });
 
@@ -45,7 +45,7 @@ describe('ZkTorusDataVault', () => {
     });
 
     await tx.prove();
-    await tx.sign([feePayer.key]); // ✅ Properly signing
+    await tx.sign([feePayer.key]); // ✅ Fixed signing
     await tx.send();
 
     // ✅ Assert stored hash
