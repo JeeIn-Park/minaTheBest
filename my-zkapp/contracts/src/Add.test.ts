@@ -1,21 +1,29 @@
 import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
-import { ZkTorusDataVault } from './Add';
+import ZkTorusDataVault from './Add';
+
+jest.setTimeout(60000); // ✅ Extend timeout for Mina zk-SNARK proof generation
 
 describe('ZkTorusDataVault', () => {
   let zkApp: ZkTorusDataVault;
   let zkAppPrivateKey: PrivateKey;
 
+  beforeAll(async () => {
+    console.log("Compiling contract...");
+    const { verificationKey } = await ZkTorusDataVault.compile();  // ✅ Ensures contract is compiled before deployment
+  
+    console.log("Setting up Mina Local Blockchain...");
+    const localBlockchain = await Mina.LocalBlockchain(); // ✅ Add `await` here
+    Mina.setActiveInstance(localBlockchain);
+  });
+
   beforeEach(async () => {
-    // Set up Mina Local Blockchain
-    Mina.LocalBlockchain();
     zkAppPrivateKey = PrivateKey.random();
     const zkAppAddress = zkAppPrivateKey.toPublicKey();
-
     zkApp = new ZkTorusDataVault(zkAppAddress);
 
-    // Deploy zkApp
+    console.log("Deploying zkApp...");
     await zkApp.deploy({
-      verificationKey: undefined,
+      verificationKey: (await ZkTorusDataVault.compile()).verificationKey, // ✅ Get verification key
     });
   });
 
@@ -25,9 +33,10 @@ describe('ZkTorusDataVault', () => {
       data.split('').map((char) => Field(char.charCodeAt(0)))
     );
 
+    console.log("Uploading data hash...");
     await zkApp.uploadData(dataHash);
 
-    const storedHash = zkApp.storedDataHash.get();
+    const storedHash = await zkApp.storedDataHash.get(); // ✅ Await this!
     expect(storedHash).toEqual(dataHash);
   });
 
@@ -37,9 +46,12 @@ describe('ZkTorusDataVault', () => {
       data.split('').map((char) => Field(char.charCodeAt(0)))
     );
 
+    console.log("Uploading data hash...");
     await zkApp.uploadData(dataHash);
 
+    console.log("Verifying zkProof...");
     await zkApp.verifyProof(dataHash);
+
     console.log("Proof verified successfully!");
   });
 });

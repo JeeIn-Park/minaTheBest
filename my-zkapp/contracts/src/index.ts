@@ -1,3 +1,3 @@
-import { ZkTorusDataVault } from './Add.js';
+import ZkTorusDataVault from './Add.js';
 
 export { ZkTorusDataVault };

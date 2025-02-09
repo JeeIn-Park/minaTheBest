@@ -1,9 +1,12 @@
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node', // Keep this as 'node' unless testing UI
-  setupFiles: ["<rootDir>/jest.setup.js"], // This ensures JSDOM is loaded for all tests
+export default {
+  preset: "ts-jest",
+  testEnvironment: "node",
   transform: {
-    '^.+\\.(ts|tsx)$': 'babel-jest',
+    "^.+\\.tsx?$": ["ts-jest", { useESM: true }]
   },
-  transformIgnorePatterns: ['/node_modules/(?!(o1js|@toruslabs)/)'],
+  transformIgnorePatterns: ["/node_modules/(?!(o1js|@toruslabs|jsdom)/)"],
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  testMatch: ["**/src/**/*.test.ts"],  // ✅ Ensures Jest only runs tests in `src/`
+  testPathIgnorePatterns: ["/node_modules/", "/dist/"],  // ✅ Exclude `dist/` from tests
 };

@@ -1,5 +1,5 @@
 import { Mina, PrivateKey, Poseidon, Field, fetchAccount } from 'o1js';
-import { ZkTorusDataVault } from './Add.js';
+import ZkTorusDataVault from './Add.js';
 
 async function main() {
   console.log("Starting Mina zkApp interaction...");

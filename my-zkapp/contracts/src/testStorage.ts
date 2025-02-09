@@ -3,7 +3,7 @@ import { encryptData } from "./encryptData";
 import { generateStorageProof } from './storageProof';
 import { storeEncryptedFile } from './storeEncryptedFile';
 import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
-import { ZkTorusDataVault } from './Add.js';
+import ZkTorusDataVault from './Add.js';
 
 async function testStorage() {
   // Setup Mina Local Blockchain
