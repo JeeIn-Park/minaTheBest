@@ -7,9 +7,17 @@ module.exports = {
     '^.+\\.(ts|tsx)$': 'babel-jest',
   },
 
-  transformIgnorePatterns: ['/node_modules/(?!(o1js|@toruslabs)/)'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(o1js|@toruslabs)/)', 
+    '<rootDir>/dist/', // ✅ Ignore compiled test files in dist/
+  ],
 
-  // ✅ Add this to ensure Jest handles ES modules properly
+  testPathIgnorePatterns: [
+    "<rootDir>/dist/", // ✅ Ensure Jest does not run tests in dist/
+    "<rootDir>/my-zkapp/contracts/dist/", // ✅ Ignore contract dist tests
+    "<rootDir>/my-zkapp/contracts/src/Add.test.js" // ✅ Prevent duplicate test runs
+  ],
+
   extensionsToTreatAsEsm: ['.ts'],
   globals: {
     'ts-jest': {
