@@ -14,21 +14,19 @@ describe('ZkTorusDataVault', () => {
     await torus.init();
     console.log("✅ Torus initialized.");
 
+    console.log("🌐 Setting up Mina Local Blockchain...");
+    const localBlockchain = await Mina.LocalBlockchain();
+    Mina.setActiveInstance(localBlockchain);
+    feePayer = localBlockchain.testAccounts[0]; // ✅ Use first test account as fee payer
+    console.log("✅ Mina Local Blockchain initialized.");
+
     console.log("🔧 Compiling zk-SNARK contract...");
     await ZkTorusDataVault.compile();
     console.log("✅ Compilation complete.");
   });
 
   beforeEach(async () => {
-    console.log("🌐 Initializing Mina Local Blockchain...");
-    const localBlockchain = await Mina.LocalBlockchain();
-    Mina.setActiveInstance(localBlockchain);
-    console.log("✅ Mina Local Blockchain initialized.");
-
-    console.log("🔑 Setting up fee payer...");
-    feePayer = localBlockchain.testAccounts[0];
-    console.log(`✅ Fee payer: ${feePayer.publicKey.toBase58()}`);
-
+    console.log("🔑 Setting up zkApp...");
     zkAppPrivateKey = PrivateKey.random();
     const zkAppAddress = zkAppPrivateKey.toPublicKey();
     zkApp = new ZkTorusDataVault(zkAppAddress);
