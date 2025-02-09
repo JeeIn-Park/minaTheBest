@@ -1,4 +1,12 @@
-import { SmartContract, method, Field, State, state, PublicKey, Proof } from 'snarkyjs';
+import { SmartContract, method, Field, state, State, PublicKey, Proof, Struct } from 'snarkyjs';
+
+// Define the Public Input Structure for the Proof
+export class PublicInput extends Struct({
+  dataHash: Field,
+}) {}
+
+// Define the Proof subclass
+export class DataOwnershipProof extends Proof<PublicInput, Field> {}
 
 export class DataOwnershipContract extends SmartContract {
   @state(Field) storedHash = State<Field>();
@@ -11,10 +19,9 @@ export class DataOwnershipContract extends SmartContract {
     this.storedHash.set(dataHash);
   }
 
-  @method verifyProof(dataHash: Field, proof: Proof<Field, Field>) {
-    proof.verify();
-    const currentHash = this.storedHash.get();
-    this.storedHash.assertEquals(currentHash);
-    currentHash.assertEquals(dataHash);
+  @method verifyProof(proof: DataOwnershipProof) {
+    proof.verify(); // Validate proof
+    const storedHash = this.storedHash.get(); // Get stored hash
+    storedHash.assertEquals(proof.publicInput.dataHash); // Ensure proof matches stored data
   }
 }
