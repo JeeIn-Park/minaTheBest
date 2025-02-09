@@ -1,28 +1,31 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["DOM", "ESNext"],
-    "outDir": "../../dist/contracts", 
-    "rootDir": "./src",
+    "outDir": "./dist",
+    "rootDir": ".",   // Ensure TypeScript checks everything
+    "baseUrl": ".",
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
-    "strictPropertyInitialization": false, 
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "esModuleInterop": true,
-    "moduleResolution": "Node",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "lib": ["ES2022", "DOM"],
+    "resolveJsonModule": true,
     "allowJs": true,
-    "declaration": true,
-    "sourceMap": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": false,
-    "baseUrl": ".",
     "paths": {
-      "@contracts/*": ["src/*"]
+      "storageProof": ["./my-zkapp/contracts/src/storageProof"],
+      "contracts/*": ["./my-zkapp/contracts/*"]
     }
   },
-  "include": ["./src", "../../jest.config.js"]
-}
+  "include": [
+    "src/**/*",
+    "my-zkapp/contracts/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
