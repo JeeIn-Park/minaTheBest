@@ -1,22 +1,21 @@
-import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
-import { ZkTorusDataVault } from './Add';
+import { Mina, PrivateKey, Poseidon, Field, PublicKey } from 'o1js';
+import { ZkTorusDataVault } from './Add.js';
 
 describe('ZkTorusDataVault', () => {
   let zkApp: ZkTorusDataVault;
   let zkAppPrivateKey: PrivateKey;
+  let zkAppAddress: PublicKey;  // ✅ Ensure this is declared
 
   beforeEach(async () => {
-    // Set up Mina Local Blockchain
-    Mina.LocalBlockchain();
-    zkAppPrivateKey = PrivateKey.random();
-    const zkAppAddress = zkAppPrivateKey.toPublicKey();
+    const Local = await Mina.LocalBlockchain();
+    Mina.setActiveInstance(Local);
 
+    zkAppPrivateKey = PrivateKey.random();
+    zkAppAddress = zkAppPrivateKey.toPublicKey();
     zkApp = new ZkTorusDataVault(zkAppAddress);
 
-    // Deploy zkApp
-    await zkApp.deploy({
-      verificationKey: undefined,
-    });
+    await ZkTorusDataVault.compile();
+    await zkApp.deploy({ verificationKey: undefined });
   });
 
   test('should upload data hash to the blockchain', async () => {
@@ -25,11 +24,21 @@ describe('ZkTorusDataVault', () => {
       data.split('').map((char) => Field(char.charCodeAt(0)))
     );
 
-    await zkApp.uploadData(dataHash);
+    await Mina.transaction(zkAppPrivateKey.toPublicKey(), async () => {
+      await zkApp.uploadData(dataHash);
+    }).send();
 
-    const storedHash = zkApp.storedDataHash.get();
+    const txn = await Mina.transaction(zkAppPrivateKey.toPublicKey(), async () => {
+      zkApp.storedDataHash.get();  // ✅ No `return` inside transaction
+    });
+    await txn.send();  // ✅ Send transaction after creating it
+
+    const storedHash = zkApp.storedDataHash.get(); // ✅ Retrieve state after transaction
+
+
     expect(storedHash).toEqual(dataHash);
   });
+
 
   test('should verify zkProof against stored hash', async () => {
     const data = "My super secret data";
