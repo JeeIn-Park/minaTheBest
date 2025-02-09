@@ -1,11 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateStorageProof = generateStorageProof;
-var o1js_1 = require("o1js");
+import { Field, Poseidon } from 'o1js';
 function stringToField(data) {
-    return o1js_1.Poseidon.hash(data.split("").map(function (char) { return (0, o1js_1.Field)(char.charCodeAt(0)); }));
+    return Poseidon.hash(data.split("").map(char => Field(char.charCodeAt(0))));
 }
 // Generate zk-SNARK proof of storage
-function generateStorageProof(encryptedData, iv) {
-    return o1js_1.Poseidon.hash([stringToField(encryptedData), stringToField(iv)]);
+export function generateStorageProof(encryptedData, iv) {
+    return Poseidon.hash([stringToField(encryptedData), stringToField(iv)]);
 }

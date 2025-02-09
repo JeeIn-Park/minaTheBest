@@ -5,7 +5,7 @@
     "declaration": true,
     "target": "esnext",
     "module": "esnext",
-    "moduleResolution": "Node",
+    "moduleResolution": "bundler",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
