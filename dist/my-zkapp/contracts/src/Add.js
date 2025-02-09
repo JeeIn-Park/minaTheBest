@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,17 +7,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ZkTorusDataVault = void 0;
-const o1js_1 = require("o1js");
+import { SmartContract, state, State, method, Field } from 'o1js';
 /**
  * ZkTorusDataVault Smart Contract
  * This contract stores a zk-SNARK proof of encrypted data and verifies ownership.
  */
-class ZkTorusDataVault extends o1js_1.SmartContract {
+export class ZkTorusDataVault extends SmartContract {
     constructor() {
         super(...arguments);
-        this.storedDataHash = (0, o1js_1.State)();
+        this.storedDataHash = State();
     }
     /**
      * Upload encrypted data hash to the Mina blockchain.
@@ -42,20 +39,19 @@ class ZkTorusDataVault extends o1js_1.SmartContract {
         return Promise.resolve();
     }
 }
-exports.ZkTorusDataVault = ZkTorusDataVault;
 __decorate([
-    (0, o1js_1.state)(o1js_1.Field),
+    state(Field),
     __metadata("design:type", Object)
 ], ZkTorusDataVault.prototype, "storedDataHash", void 0);
 __decorate([
-    o1js_1.method,
+    method,
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [o1js_1.Field]),
+    __metadata("design:paramtypes", [Field]),
     __metadata("design:returntype", Promise)
 ], ZkTorusDataVault.prototype, "uploadData", null);
 __decorate([
-    o1js_1.method,
+    method,
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [o1js_1.Field]),
+    __metadata("design:paramtypes", [Field]),
     __metadata("design:returntype", Promise)
 ], ZkTorusDataVault.prototype, "verifyProof", null);

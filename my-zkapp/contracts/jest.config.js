@@ -1,19 +1,16 @@
-/** @type {import('@ts-jest/dist/types').InitialOptionsTsJest} */
+/** @type {import('jest').Config} */
 export default {
-  verbose: true,
-  preset: 'ts-jest/presets/default-esm',
-  testEnvironment: 'node',
-  testTimeout: 1_000_000,
+  preset: "ts-jest",
+  testEnvironment: "node",
+  moduleFileExtensions: ["ts", "js"],
   transform: {
-    '^.+\\.(t)s$': ['ts-jest', { useESM: true }],
-    '^.+\\.(j)s$': 'babel-jest',
+    "^.+\\.(ts|tsx)$": "ts-jest",
   },
-  resolver: '<rootDir>/jest-resolver.cjs',
-  transformIgnorePatterns: [
-    '<rootDir>/node_modules/(?!(tslib|o1js/node_modules/tslib))',
-  ],
-  modulePathIgnorePatterns: ['<rootDir>/build/'],
-  moduleNameMapper: {
-    '^(\\.{1,2}/.+)\\.js$': '$1',
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  globals: {
+    "ts-jest": {
+      useESM: true, // Allows Jest to properly handle ES Modules
+    },
   },
+  transformIgnorePatterns: ["/node_modules/"],
 };

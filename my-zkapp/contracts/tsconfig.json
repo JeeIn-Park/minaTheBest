@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "CommonJS",
+    "target": "esnext",
+    "module": "esnext",
     "lib": ["DOM", "ESNext"],
     "outDir": "../../dist/contracts", 
     "rootDir": "./src",
@@ -24,5 +24,5 @@
       "@contracts/*": ["src/*"]
     }
   },
-  "include": ["./src"]
+  "include": ["./src", "../../jest.config.js"]
 }
