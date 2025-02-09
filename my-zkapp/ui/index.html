@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina zkApp</title>
+    
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mina zkApp</h1>
+
+        <!-- File Upload Section -->
+        <div class="upload-section">
+            <label for="fileInput">Upload File:</label>
+            <input type="file" id="fileInput" />
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="buttons">
+            <button id="encryptBtn">Encrypt & Store Data</button>
+            <button id="retrieveBtn">Retrieve & Decrypt Data</button>
+            <button id="proofBtn">Generate & Verify Proof</button>
+        </div>
+
+        <!-- Status Display -->
+        <div id="status"></div>
+    </div>
+</body>
+</html>

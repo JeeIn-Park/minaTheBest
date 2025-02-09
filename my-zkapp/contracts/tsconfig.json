@@ -23,10 +23,9 @@
   },
   "include": [
     "src/**/*",
-    "my-zkapp/contracts/**/*"   // ✅ Force TypeScript to include the correct contracts path
+    "my-zkapp/contracts/**/*"
   ],
   "exclude": [
     "node_modules",
     "dist"
   ]
-}

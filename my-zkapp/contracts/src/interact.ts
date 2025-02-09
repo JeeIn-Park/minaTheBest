@@ -1,10 +1,10 @@
-import { Mina, PrivateKey, Poseidon, Field } from 'o1js';
+import { Mina, PrivateKey, Poseidon, Field, fetchAccount } from 'o1js';
 import { ZkTorusDataVault } from './Add.js';
 
 async function main() {
   console.log("Starting Mina zkApp interaction...");
 
-  // 🔥 Fix: Await Mina Local Blockchain Initialization
+  // 🔥 Setup Mina Local Blockchain
   const Local = await Mina.LocalBlockchain();
   Mina.setActiveInstance(Local);
 
@@ -15,15 +15,17 @@ async function main() {
 
   const zkApp = new ZkTorusDataVault(zkAppAddress);
 
-  // 🔥 Fix: **Compile the contract before deploying**
+  // 🔥 Compile the contract
   console.log("Compiling zkApp...");
-  await ZkTorusDataVault.compile();  // ✅ This caches the verification key
+  await ZkTorusDataVault.compile();  
 
-  // Deploy the contract
+  // 🔥 Deploy the contract
   console.log("Deploying zkApp...");
-  await zkApp.deploy({
-    verificationKey: undefined, // Now the key is cached and used internally
-  });
+  await zkApp.deploy({ verificationKey: undefined });
+
+  // 🔥 Fetch account after deployment
+  console.log("Fetching zkApp account...");
+  await fetchAccount({ publicKey: zkAppAddress });
 
   // Encrypt and hash data
   const data = "My secret file content";
@@ -35,6 +37,10 @@ async function main() {
   console.log("Uploading data hash to Mina...");
   await zkApp.uploadData(dataHash);
   console.log("Data uploaded!");
+
+  // 🔥 Fetch account again before verifying proof
+  console.log("Fetching zkApp account before verifying proof...");
+  await fetchAccount({ publicKey: zkAppAddress });
 
   // Verify proof against stored hash
   console.log("Verifying zkProof...");
