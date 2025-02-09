@@ -4,23 +4,23 @@ module.exports = {
   setupFiles: ["<rootDir>/jest.setup.mjs"],
 
   transform: {
-    '^.+\\.(ts|tsx)$': 'babel-jest',
+    "^.+\\.(ts|tsx)$": "ts-jest", // ✅ Use ts-jest for TypeScript tests
   },
 
   transformIgnorePatterns: [
-    '/node_modules/(?!(o1js|@toruslabs)/)', 
-    '<rootDir>/dist/', // ✅ Ignore compiled test files in dist/
+    "/node_modules/(?!(o1js|@toruslabs)/)", 
+    "<rootDir>/dist/",
   ],
 
   testPathIgnorePatterns: [
-    "<rootDir>/dist/", // ✅ Ensure Jest does not run tests in dist/
-    "<rootDir>/my-zkapp/contracts/dist/", // ✅ Ignore contract dist tests
-    "<rootDir>/my-zkapp/contracts/src/Add.test.js" // ✅ Prevent duplicate test runs
+    "<rootDir>/dist/", 
+    "<rootDir>/my-zkapp/contracts/dist/", 
+    "<rootDir>/my-zkapp/contracts/src/.*\\.js$" // ✅ Fixed regex pattern
   ],
 
-  extensionsToTreatAsEsm: ['.ts'],
+  extensionsToTreatAsEsm: [".ts"],
   globals: {
-    'ts-jest': {
+    "ts-jest": {
       useESM: true,
     },
   },
