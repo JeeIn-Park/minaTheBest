@@ -2,6 +2,7 @@
   "name": "my-zkapp",
   "version": "1.0.0",
   "description": "Mina zkApp for zk-SNARK-based decentralized storage",
+  "type": "module",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
