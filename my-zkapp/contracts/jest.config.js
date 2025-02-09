@@ -1,16 +1,8 @@
-/** @type {import('jest').Config} */
-export default {
-  preset: "ts-jest",
-  testEnvironment: "node",
-  moduleFileExtensions: ["ts", "js"],
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   transform: {
-    "^.+\\.(ts|tsx)$": "ts-jest",
+    '^.+\\.(ts|tsx)$': 'babel-jest',
   },
-  extensionsToTreatAsEsm: ['.ts', '.tsx'],
-  globals: {
-    "ts-jest": {
-      useESM: true, // Allows Jest to properly handle ES Modules
-    },
-  },
-  transformIgnorePatterns: ["/node_modules/"],
+  transformIgnorePatterns: ['/node_modules/(?!(o1js|@toruslabs)/)'],
 };
