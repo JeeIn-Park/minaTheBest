@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist",
+      "rootDir": ".",
+      "declaration": true,
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "bundler",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "jsx": "react-jsx",
+      "lib": ["ES2022", "DOM"],
+      "resolveJsonModule": true,
+      "paths": {
+        "*": ["node_modules/*", "src/*", "my-zkapp/contracts/src/*"]
+      }
+    },
+    "include": ["src", "my-zkapp/contracts/src", "jest.config.js"],
+    "exclude": ["node_modules", "dist", "**/*.test.ts"]
+  }
+  
