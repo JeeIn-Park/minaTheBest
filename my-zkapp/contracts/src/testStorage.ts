@@ -26,7 +26,8 @@ async function testStorage() {
   console.log("zk-SNARK Proof:", proof.toString());
 
   // 3️⃣ Store on Torus
-  const storageProof = await storeEncryptedFile(encrypted);
+  const storageProof = await storeEncryptedFile(encrypted, iv); // Use existing iv
+
   console.log("Storage Proof from Torus:", storageProof);
 
   // 4️⃣ Store proof hash in Mina

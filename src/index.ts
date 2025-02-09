@@ -31,7 +31,7 @@ async function main() {
 
     // Store data hash in zkApp
     const storeTx = await Mina.transaction(deployerKey, () => {
-        zkApp.storeDataHash(proofField);
+        zkApp.storedHash.set(proofField); // Assuming storedHash is a state variable
     });
     await storeTx.sign([deployerKey]).send();
     console.log('Data hash stored in zkApp.');
