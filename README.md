@@ -44,15 +44,15 @@ Users can **prove they own a file before sending** it, ensuring fair trades or s
 Below is a visual representation of how **ZkTorus Data Vault** works:
 
 ```
-+------------+      +----------------+      +----------------+      +---------------+
-| User       | ---> | zk-SNARK Proof | ---> | Mina Blockchain| ---> | Proof Storage |
-| (Uploads)  |      | Generation     |      | (Stores Proofs)|      | Verification  |
-+------------+      +----------------+      +----------------+      +---------------+
-      |                                                         |
-      |                                                         v
-      |                                 +-------------------------------------------+
-      |                                 |   Torus Network (Encrypted Data Storage)  |
-      |                                 +-------------------------------------------+
++------------+      +----------------+      +-----------------+      +---------------+
+| User       | ---> | zk-SNARK Proof | ---> | Mina Blockchain | ---> | Proof Storage |
+| (Uploads)  |      | Generation     |      | (Stores Proofs) |      | Verification  |
++------------+      +----------------+      +-----------------+      +---------------+
+      |                                                          |
+      |                                                          v
+      |                                  +-------------------------------------------+
+      |                                  |   Torus Network (Encrypted Data Storage)  |
+      |                                  +-------------------------------------------+
       v
 +----------------+ 
 | User Requests  |
