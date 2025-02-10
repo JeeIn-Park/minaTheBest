@@ -50,13 +50,13 @@ Below is a visual representation of how **ZkTorus Data Vault** works:
 +------------+      +----------------+      +----------------+      +---------------+
       |                                                         |
       |                                                         v
-      |        +-------------------------------------------+
-      |        |   Torus Network (Encrypted Data Storage) |
-      |        +-------------------------------------------+
+      |                                 +-------------------------------------------+
+      |                                 |   Torus Network (Encrypted Data Storage) |
+      |                                 +-------------------------------------------+
       v
 +----------------+ 
-| User Requests |
-| File Retrieval|
+| User Requests  |
+| File Retrieval |
 +----------------+
       |
       v
