@@ -74,14 +74,10 @@ This system ensures **privacy, security, and decentralized trust** for secure fi
 
 | **Category** | **Technology** |
 |-------------|--------------|
-| **zk-SNARK Proofs** | SnarkyJS, Mina Protocol |
-| **Blockchain & Smart Contracts** | Mina zkApps, Mina GraphQL API |
-| **Decentralized Storage** | Web3.Storage (IPFS + Filecoin), Lighthouse.Storage, Bundlr (Arweave), Torus |
-| **Encryption & Security** | AES-256, zk-SNARKs for authentication |
-| **Backend** | Node.js (Express.js), Mina GraphQL API |
-| **Frontend** | React.js, TailwindCSS, Ethers.js, Mina Wallet SDK |
-| **Development Tools** | VS Code, Mina zkApp CLI, SnarkyJS Test Suite |
-| **Deployment** | Vercel, Netlify |
+| **🔹 zk-SNARK Proofs** | ![SnarkyJS](https://img.shields.io/badge/SnarkyJS-%23212121.svg?style=for-the-badge&logo=javascript&logoColor=white) ![Mina Protocol](https://img.shields.io/badge/Mina%20Protocol-%235B8CC9.svg?style=for-the-badge&logoColor=white) |
+| **🔹 Blockchain & Smart Contracts** | ![Mina zkApps](https://img.shields.io/badge/Mina%20zkApps-%234B69C1.svg?style=for-the-badge&logoColor=white) |
+| **🔹 Backend** | ![Node.js](https://img.shields.io/badge/Node.js-%23339933.svg?style=for-the-badge&logo=node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) |
+| **🔹 Development Tools** | ![VS Code](https://img.shields.io/badge/VS%20Code-%23007ACC.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white) ![Jest](https://img.shields.io/badge/Jest-%23C21325.svg?style=for-the-badge&logo=jest&logoColor=white) |
 
 
 ## 🔒 **Security Considerations**
