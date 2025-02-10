@@ -1,4 +1,4 @@
-# minaTheBest
+# MinaTheBest
 
 
 ### **ZkTorus Data Vault**
